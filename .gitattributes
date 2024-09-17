@@ -3,7 +3,6 @@
 *.cs diff=csharp text		
 *.cginc text						
 *.shader text					
-
 *.mat merge=unityyamlmerge eol=lf
 *.anim merge=unityyamlmerge eol=lf
 *.unity merge=unityyamlmerge eol=lf
