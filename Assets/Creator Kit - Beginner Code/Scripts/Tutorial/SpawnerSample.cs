@@ -1,29 +1,54 @@
 ﻿using UnityEngine;
 using CreatorKitCode;
+using Unity.VisualScripting;
+
+
+
 
 public class SpawnerSample : MonoBehaviour
 {
     public GameObject ObjectToSpawn;
+    public int generate_potion_count = 4;
+    public  LootAngle myloot_angle = new(15);
 
     void Start()
     {
-        int angle = 15;
-        Vector3 spawnPosition = transform.position;
-
+        for (int i = 0; i < generate_potion_count; i++)
+        {
+            SpawnPotion(myloot_angle.NextAngle());
+        }
         
-        Vector3 direction = Quaternion.Euler(0, angle, 0) * Vector3.right;  // Rotate the direction vector x by 15 degrees around the y axis.
-        spawnPosition = transform.position + direction * 2;
+        
+    }
+    void SpawnPotion(int angle)
+    {
+        Vector3 spawnPosition = transform.position;
+        Vector3 direct = Quaternion.Euler(0, angle, 0) * Vector3.right;
+        spawnPosition = transform.position + direct * 2;
         Instantiate(ObjectToSpawn, spawnPosition, Quaternion.identity);
+    }
+    //void OnMouseDown()
+    //{
+    //    SpawnPotion(myloot_angle.NextAngle());
+    //    print("Spawned a potion");
+    //}
+}
 
-        angle = 15;
-        direction = Quaternion.Euler(0, angle, 0) * Vector3.right;
-        spawnPosition = transform.position + direction * 4;
-        Instantiate(ObjectToSpawn, spawnPosition, Quaternion.identity);
+public class LootAngle
+{
+    int angle;
+    int step;
 
-        angle = 15;
-        direction = Quaternion.Euler(0, angle, 0) * Vector3.right;
-        spawnPosition = transform.position + direction * 6;
-        Instantiate(ObjectToSpawn, spawnPosition, Quaternion.identity);
+    public LootAngle(int increment)
+    {
+        step = increment;
+        angle = 0;
+    }
+    public int NextAngle()
+    {
+        int currentAngel = angle;
+        angle = Helpers.WrapAngle(angle + step);
+        return currentAngel;
     }
 }
 
